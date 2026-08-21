@@ -548,14 +548,30 @@ const BGM={
   6:'素材库/音乐库/Moonlight_Shadow_Dana_Winner.mp3'
 };
 let bgmOn=false;
+let bgmTryTimer=null;
+function playBgm(){
+  const src=BGM[curAct];
+  if(!src)return;
+  if(bgmAudio.getAttribute('src')!==src){
+    bgmAudio.src=src;
+    bgmAudio.load();
+  }
+  const tryPlay=()=>{
+    if(!bgmOn)return;
+    bgmAudio.play().catch(()=>{clearTimeout(bgmTryTimer);bgmTryTimer=setTimeout(tryPlay,500);});
+  };
+  /* 等资源可播后再放,避免 3-4MB mp3 未加载完 play 被拒 */
+  bgmAudio.addEventListener('canplay',tryPlay,{once:true});
+  tryPlay();
+}
 bgmBtn.addEventListener('click',()=>{
   bgmOn=!bgmOn;
-  if(bgmOn){bgmAudio.src=BGM[curAct];bgmAudio.play().catch(()=>{});bgmBtn.textContent='♪';bgmBtn.style.opacity='1';}
-  else{bgmAudio.pause();bgmBtn.textContent='♪';bgmBtn.style.opacity='0.5';}
+  if(bgmOn){playBgm();bgmBtn.style.opacity='1';}
+  else{clearTimeout(bgmTryTimer);bgmAudio.pause();bgmBtn.style.opacity='0.5';}
 });
 /* 切幕换曲 */
 let lastBgmAct=curAct;
-setInterval(()=>{if(bgmOn&&lastBgmAct!==curAct){lastBgmAct=curAct;bgmAudio.src=BGM[curAct];bgmAudio.play().catch(()=>{});}},1500);
+setInterval(()=>{if(bgmOn&&lastBgmAct!==curAct){lastBgmAct=curAct;playBgm();}},1500);
 
 /* ============ 滚动揭示 ============ */
 const io=new IntersectionObserver(es=>{
