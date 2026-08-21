@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>情书工坊 · 十二种我爱你</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Playfair+Display:wght@400;600;700;800&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Great+Vibes&family=Space+Grotesk:wght@300;400;500&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<style>
+/* ================================================================
+   情书工坊 · 十二种我爱你 · 产品示例页
+   六幕:字·白 / 纸·语 / 礼·痕 / 园·梦 / 殿·誓 / 焰·城
+   ================================================================ */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-body);
+  background:var(--bg);color:var(--ink);
+  overflow-x:hidden;
+  transition:background 1s cubic-bezier(0.22,1,0.36,1),color 1s cubic-bezier(0.22,1,0.36,1);
+  --bg:#F5F2EC;--ink:#1A1A1A;--accent:#C43B2B;--accent-soft:#e8745f;
+  --panel:rgba(0,0,0,0.03);--line:rgba(26,26,26,0.12);
+  --font-body:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --font-display:"Iowan Old Style","Palatino Linotype","Songti SC","SimSun",serif;
+  --shadow:0 20px 60px rgba(0,0,0,0.12);
+  --curtain-z:300;
+}
+/* 幕1 字·白 瑞士极简/现代高级 */
+body[data-act="1"]{--bg:#FFFFFF;--ink:#111;--accent:#E30613;--accent-soft:#ff6b5e;--panel:rgba(17,17,17,0.02);--line:rgba(17,17,17,0.14);--font-display:"Iowan Old Style","Songti SC",serif}
+/* 幕2 纸·语 文艺杂志/日式侘寂 */
+body[data-act="2"]{--bg:#F7F3E8;--ink:#2B3A4A;--accent:#C9A9A6;--accent-soft:#e0c8c4;--panel:rgba(43,58,74,0.04);--line:rgba(43,58,74,0.15);--font-display:"Palatino Linotype","Songti SC",serif}
+/* 幕3 礼·痕 新中式/复古胶片 */
+body[data-act="3"]{--bg:#F2EAD8;--ink:#1F1F1F;--accent:#B03A2E;--accent-soft:#c95a4c;--panel:rgba(31,31,31,0.03);--line:rgba(176,58,46,0.2);--font-display:"Songti SC","SimSun",serif}
+/* 幕4 园·梦 水彩/手绘/森系 */
+body[data-act="4"]{--bg:#FDF8F0;--ink:#5a6b52;--accent:#A3B89A;--accent-soft:#c5d4bc;--panel:rgba(90,107,82,0.04);--line:rgba(163,184,154,0.3);--font-display:"Kaiti SC","STKaiti",cursive}
+/* 幕5 殿·誓 巴洛克/维多利亚 */
+body[data-act="5"]{--bg:#4A0E1B;--ink:#FFF2D6;--accent:#C9A227;--accent-soft:#f0d878;--panel:rgba(0,0,0,0.25);--line:rgba(201,162,39,0.3);--font-display:"Iowan Old Style","Palatino Linotype",serif;--shadow:0 20px 60px rgba(0,0,0,0.5)}
+/* 幕6 焰·城 赛博朋克 */
+body[data-act="6"]{--bg:#12001A;--ink:#00E5EE;--accent:#FF00F0;--accent-soft:#ff6bf0;--panel:rgba(0,0,0,0.35);--line:rgba(255,0,240,0.3);--font-body:"Space Grotesk",-apple-system,"PingFang SC",sans-serif;--font-display:"Space Grotesk",sans-serif}
+
+section.act{position:relative;min-height:100vh;overflow:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+
+/* ============ 顶部导航 ============ */
+nav{position:fixed;top:0;left:0;right:0;z-index:400;display:flex;justify-content:space-between;align-items:center;padding:20px 36px;mix-blend-mode:difference;color:#fff}
+nav .brand{font-family:'Great Vibes',cursive;font-size:1.7rem;letter-spacing:2px}
+nav .brand em{font-style:normal}
+nav .act-menu{display:flex;gap:18px;font-size:0.72rem;letter-spacing:2px}
+nav .act-menu a{opacity:0.7;transition:opacity .3s}
+nav .act-menu a:hover{opacity:1}
+nav .act-menu a.on{opacity:1;border-bottom:1px solid currentColor}
+#progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent-soft));z-index:401;width:0%;transition:background .6s}
+
+/* ============ 风格指示器(车站翻牌) ============ */
+#styleBoard{
+  position:fixed;right:24px;top:50%;transform:translateY(-50%);z-index:399;
+  display:flex;flex-direction:column;align-items:flex-end;gap:8px;padding:14px 16px;
+  background:var(--panel);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:12px;
+  transition:all .5s;
+}
+#styleBoard .sb-label{font-size:0.6rem;letter-spacing:3px;opacity:0.5;text-transform:uppercase}
+#styleBoard .sb-cur{font-size:0.9rem;font-weight:700;color:var(--accent);letter-spacing:1px}
+#styleBoard .sb-flip{font-size:0.62rem;opacity:0.6;letter-spacing:2px}
+#styleBoard .sb-flip span{display:block;transition:all .5s}
+
+/* ============ 幕布过渡 ============ */
+#curtain{position:fixed;inset:0;z-index:var(--curtain-z);pointer-events:none}
+#curtain .panel{position:absolute;top:0;bottom:0;width:51%;background:var(--bg);transition:transform 1s cubic-bezier(0.22,1,0.36,1)}
+#curtain .p-l{left:0;transform:translateX(0)}
+#curtain .p-r{right:0;transform:translateX(0)}
+body.curtain-close #curtain .p-l{transform:translateX(-102%)}
+body.curtain-close #curtain .p-r{transform:translateX(102%)}
+
+/* ============ 能力标签条 ============ */
+.cap-bar{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);display:flex;gap:8px;flex-wrap:wrap;justify-content:center;z-index:20;max-width:90vw}
+.cap{font-size:0.62rem;letter-spacing:1px;padding:5px 12px;border-radius:30px;border:1px solid var(--line);background:var(--panel);color:var(--ink);opacity:0.8;white-space:nowrap}
+.cap b{color:var(--accent);font-weight:700}
+.cap-bar.reveal{opacity:0;transform:translateX(-50%) translateY(16px)}
+.cap-bar.reveal.on{opacity:1;transform:translateX(-50%) translateY(0);transition:all .8s cubic-bezier(0.22,1,0.36,1)}
+
+/* ============ 通用 ============ */
+.act-num{position:absolute;top:90px;left:36px;font-size:0.7rem;letter-spacing:4px;opacity:0.4;z-index:15;font-family:ui-monospace,monospace}
+.reveal{opacity:0;transform:translateY(40px);transition:all .9s cubic-bezier(0.22,1,0.36,1)}
+.reveal.on{opacity:1;transform:translateY(0)}
+/* ============ 幕1 字·白 瑞士极简/现代高级 ============ */
+#act1{display:flex;align-items:center;justify-content:center;text-align:center}
+#act1 .swiss-bg{position:absolute;inset:0;background:url('素材库/图片素材/背景大图/01-瑞士排版/0576fe4cb7cae7ba993f7f356aad5831770b3a81370e0-ouGPAL_fw658webp.webp') center/cover no-repeat;opacity:0.07;z-index:0}
+#act1 .act1-inner{position:relative;z-index:5;max-width:760px;padding:0 20px}
+#act1 .a1-kicker{font-size:0.7rem;letter-spacing:6px;text-transform:uppercase;color:var(--accent);margin-bottom:24px;font-weight:500}
+#act1 .a1-title{font-family:var(--font-display);font-size:clamp(2.2rem,7vw,4.2rem);font-weight:800;letter-spacing:-0.02em;color:var(--ink);margin-bottom:8px}
+#act1 .a1-title em{font-style:normal;color:var(--accent)}
+#act1 .a1-type{margin-top:40px;min-height:4.2em;font-family:var(--font-display);font-size:clamp(1.1rem,3vw,1.5rem);line-height:2.1;color:var(--ink);letter-spacing:0.04em}
+#act1 .a1-cursor{display:inline-block;width:2px;height:1.1em;background:var(--accent);vertical-align:-0.15em;margin-left:4px;animation:a1Blink 1s steps(2,start) infinite}
+@keyframes a1Blink{0%{opacity:1}50%{opacity:0}100%{opacity:1}}
+#act1 .a1-swipe{position:absolute;inset:0;z-index:1;pointer-events:none}
+#act1 .a1-swipe .sw-line{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0.3;animation:a1Swipe 4s ease-in-out infinite}
+#act1 .a1-swipe .sw-line:nth-child(1){top:22%}
+#act1 .a1-swipe .sw-line:nth-child(2){top:44%;animation-delay:1.3s}
+#act1 .a1-swipe .sw-line:nth-child(3){top:66%;animation-delay:2.6s}
+@keyframes a1Swipe{0%,100%{transform:scaleX(0);opacity:0}30%{transform:scaleX(1);opacity:0.25}70%{transform:scaleX(1);opacity:0.25}}
+#act1 .a1-orn{position:absolute;z-index:2;pointer-events:none;opacity:0.5}
+#act1 .a1-orn.o1{top:14%;left:10%;width:70px}
+#act1 .a1-orn.o2{bottom:16%;right:12%;width:56px;opacity:0.35}
+#act1 .a1-orn.o3{top:20%;right:20%;width:40px;opacity:0.3}
+
+/* ============ 幕2 纸·语 文艺杂志/日式侘寂 ============ */
+#act2{display:flex;align-items:center;justify-content:center}
+#act2 .paper-bg{position:absolute;inset:0;background:url('素材库/图片素材/背景大图/03-文艺杂志/1666839145487776.jpg') center/cover no-repeat;opacity:0.1;z-index:0}
+#act2 .a2-layout{position:relative;z-index:5;display:grid;grid-template-columns:5fr 4fr;gap:48px;max-width:1000px;width:100%;padding:0 5%;align-items:center}
+#act2 .a2-left{display:flex;flex-direction:column;gap:20px}
+#act2 .a2-kicker{font-size:0.68rem;letter-spacing:5px;text-transform:uppercase;color:var(--accent)}
+#act2 .a2-quote{font-family:var(--font-display);font-size:clamp(1.4rem,3.4vw,2.2rem);line-height:1.7;color:var(--ink);font-weight:500}
+#act2 .a2-quote em{font-style:italic;color:var(--accent)}
+#act2 .a2-sign{font-family:'Great Vibes',cursive;font-size:1.6rem;color:var(--accent);transform:rotate(-3deg)}
+#act2 .a2-card{position:relative;aspect-ratio:3/4;border-radius:4px;overflow:hidden;background:url('素材库/图片素材/背景大图/04-日式侘寂/1Acj-hmhswin4041454.jpg') center/cover no-repeat;border:1px solid var(--line);box-shadow:var(--shadow);cursor:pointer}
+#act2 .a2-card::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,0.55));pointer-events:none}
+#act2 .a2-count{position:absolute;top:14px;right:16px;z-index:6;font-size:0.85rem;color:#fff;background:rgba(0,0,0,0.4);padding:4px 12px;border-radius:20px;backdrop-filter:blur(4px);font-family:ui-monospace,monospace}
+#act2 .a2-hint{position:absolute;bottom:16px;left:0;right:0;text-align:center;z-index:6;color:rgba(255,255,255,0.85);font-size:0.8rem;letter-spacing:2px}
+#act2 .a2-orn{position:absolute;z-index:2;pointer-events:none;opacity:0.4}
+#act2 .a2-orn.o1{top:16%;right:8%;width:60px}
+#act2 .a2-orn.o2{bottom:14%;left:6%;width:44px;opacity:0.3}
+
+/* ============ 幕3 礼·痕 新中式/复古胶片 ============ */
+#act3{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+#act3 .ink-bg{position:absolute;inset:0;background:url('素材库/图片素材/背景大图/05-新中式/ink-1.jpg') center/cover no-repeat;opacity:0.08;z-index:0}
+#act3 .film-grain{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0.16;background-image:radial-gradient(rgba(0,0,0,0.09) 1px,transparent 1px);background-size:3px 3px}
+#act3 .a3-kicker{font-size:0.68rem;letter-spacing:8px;text-transform:uppercase;color:var(--accent);margin-bottom:16px;position:relative;z-index:5}
+#act3 .a3-title{font-family:var(--font-display);font-size:clamp(1.8rem,5vw,3rem);color:var(--ink);margin-bottom:8px;position:relative;z-index:5}
+#act3 .a3-sub{font-size:0.85rem;letter-spacing:3px;color:var(--ink);opacity:0.5;margin-bottom:36px;position:relative;z-index:5}
+#act3 .a3-canvas-wrap{position:relative;z-index:5;width:min(400px,86vw);height:min(280px,58vw);margin:0 auto}
+#act3 .a3-canvas-wrap svg{width:100%;height:100%}
+#act3 .a3-progress{width:min(400px,86vw);height:3px;background:rgba(176,58,46,0.15);border-radius:2px;overflow:hidden;margin:18px auto 0;position:relative;z-index:5}
+#act3 .a3-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-soft));transition:width .2s ease}
+#act3 .a3-hint{font-size:.85rem;letter-spacing:2px;color:var(--ink);opacity:.8;margin-top:14px;position:relative;z-index:5;font-style:italic}
+#act3 .a3-seal{position:relative;z-index:5;display:flex;margin:20px auto 0;width:56px;height:56px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#D43D3D,#8B1A1A);color:#F5E6D3;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1.2rem;box-shadow:0 4px 12px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .3s ease}
+@keyframes a3SealDrop{0%{transform:scale(2.2) rotate(20deg);opacity:0}60%{transform:scale(0.95) rotate(-4deg);opacity:1}100%{transform:scale(1) rotate(0)}}
+#act3 .a3-orn{position:absolute;z-index:2;pointer-events:none;opacity:0.45}
+#act3 .a3-orn.o1{top:12%;left:8%;width:64px}
+#act3 .a3-orn.o2{bottom:14%;right:10%;width:48px;opacity:0.3}
+/* V4 画心改进 CSS */
+#heartSvg3{display:block;width:100%;height:100%}
+#guideLayer path{transition:opacity .3s ease}
+#inkLayer path{transition:stroke-dashoffset .08s linear,opacity .2s ease}
+@keyframes layerFlash{0%{stroke:#B03A2E;filter:drop-shadow(0 0 2px rgba(255,215,0,0.8))}30%{stroke:#FFD700;filter:drop-shadow(0 0 8px rgba(255,215,0,1))}70%{stroke:#D4AF37;filter:drop-shadow(0 0 4px rgba(255,215,0,0.6))}100%{stroke:#7B1E1E;filter:drop-shadow(0 0 0 rgba(255,215,0,0))}}
+.layer-done{animation:layerFlash .8s ease-out forwards}
+@keyframes burstParticle{0%{transform:translate(0,0) scale(1);opacity:.9}100%{transform:translate(var(--dx),var(--dy)) scale(.2);opacity:0}}
+.ink-burst-particle{animation:burstParticle .6s ease-out forwards}
+.a3-seal.seal-active{opacity:1;animation:sealDrop .9s cubic-bezier(.22,.9,.35,1.2) forwards}
+@keyframes sealDrop{0%{transform:translate(-50%,-150%) scale(.2);opacity:0}60%{transform:translate(-50%,-50%) scale(1.15);opacity:1}80%{transform:translate(-50%,-50%) scale(.95)}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
+.ink-burst-big{position:absolute;top:50%;left:50%;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,rgba(123,30,30,.8),rgba(123,30,30,0));transform:translate(-50%,-50%) scale(0);pointer-events:none;animation:bigInkBurst 1.2s ease-out forwards}
+@keyframes bigInkBurst{0%{transform:translate(-50%,-50%) scale(0);opacity:.8}100%{transform:translate(-50%,-50%) scale(20);opacity:0}}
+
+/* ============ 幕4 园·梦 水彩/手绘/森系 ============ */
+#act4{display:flex;align-items:center;justify-content:center}
+#act4 .water-bg{position:absolute;inset:0;background:url('素材库/图片素材/背景大图/07-水彩晕染/1936339414.jpg') center/cover no-repeat;opacity:0.1;z-index:0}
+#act4 .a4-layout{position:relative;z-index:5;display:grid;grid-template-columns:1fr 1.6fr 1fr;gap:24px;max-width:1080px;width:100%;padding:0 5%;align-items:center}
+#act4 .a4-side{display:flex;flex-direction:column;gap:16px;align-items:center}
+#act4 .a4-side img{width:100%;border-radius:8px;border:1px solid var(--line);box-shadow:var(--shadow);object-fit:cover}
+#act4 .a4-side.s1 img{aspect-ratio:3/4}
+#act4 .a4-side.s2 img{aspect-ratio:4/3}
+#act4 .a4-center{text-align:center}
+#act4 .a4-kicker{font-size:0.68rem;letter-spacing:5px;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+#act4 .a4-title{font-family:var(--font-display);font-size:clamp(1.6rem,4vw,2.4rem);color:var(--ink);margin-bottom:24px}
+#act4 .puzzle-box{position:relative;width:min(340px,80vw);aspect-ratio:1;margin:0 auto;border-radius:12px;overflow:hidden;border:2px solid var(--line);background:var(--panel);box-shadow:var(--shadow)}
+#act4 .puzzle-box .p-slot{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+#act4 .puzzle-box .p-slot .slot{position:relative;border:1px dashed rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:rgba(0,0,0,0.15)}
+#act4 .puzzle-box .p-frag{position:absolute;width:50%;height:50%;cursor:grab;z-index:6;transition:box-shadow .3s;background-size:200% 200%;border:1px solid rgba(255,255,255,0.3);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,0.35)}
+#act4 .puzzle-box .p-frag.f1{left:0;top:0;background-position:0 0}
+#act4 .puzzle-box .p-frag.f2{left:50%;top:0;background-position:100% 0}
+#act4 .puzzle-box .p-frag.f3{left:0;top:50%;background-position:0 100%}
+#act4 .puzzle-box .p-frag.f4{left:50%;top:50%;background-position:100% 100%}
+#act4 .puzzle-box .p-frag.done{border-color:transparent;box-shadow:none;pointer-events:none;transition:all .5s cubic-bezier(0.22,1,0.36,1)}
+#act4 .puzzle-box .p-frag.drag{z-index:10;cursor:grabbing;box-shadow:0 16px 40px rgba(0,0,0,0.5)}
+#act4 .a4-hint{font-size:0.8rem;color:var(--ink);opacity:0.6;margin-top:14px;letter-spacing:2px}
+#act4 .a4-orn{position:absolute;z-index:2;pointer-events:none;opacity:0.4}
+#act4 .a4-orn.o1{top:10%;right:6%;width:56px}
+#act4 .a4-orn.o2{bottom:12%;left:4%;width:44px;opacity:0.3}
+
+/* ============ 幕5 殿·誓 巴洛克/维多利亚 ============ */
+#act5{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;perspective:1000px}
+#act5 .baroque-bg{position:absolute;inset:0;background:url('素材库/图片素材/背景大图/10-巴洛克洛可可/baroque-2.jpg') center/cover no-repeat;opacity:0.25;z-index:0}
+#act5 .a5-vignette{position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse at center,transparent 60%,rgba(74,14,27,0.7) 100%);pointer-events:none}
+#act5 .a5-kicker{font-size:0.68rem;letter-spacing:8px;text-transform:uppercase;color:var(--accent);margin-bottom:14px;position:relative;z-index:5}
+#act5 .a5-cert{position:relative;z-index:5;width:min(520px,88vw);padding:48px 40px 44px;border-radius:6px;background:linear-gradient(165deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02));border:1px solid var(--line);box-shadow:var(--shadow),inset 0 0 60px rgba(201,162,39,0.06);transform-style:preserve-3d;transition:transform .4s}
+#act5 .a5-cert::before{content:'';position:absolute;inset:12px;border:1px solid rgba(201,162,39,0.35);border-radius:3px;pointer-events:none}
+#act5 .a5-cert::after{content:'❦';position:absolute;top:14px;right:20px;font-size:1.1rem;color:var(--accent);opacity:0.6}
+#act5 .a5-royal{font-family:'Great Vibes',cursive;font-size:1.9rem;color:var(--accent-soft);margin-bottom:8px}
+#act5 .a5-cert-title{font-family:var(--font-display);font-size:clamp(1.3rem,3vw,1.8rem);color:var(--ink);margin-bottom:20px;letter-spacing:2px}
+#act5 .a5-quote{font-size:0.95rem;color:var(--ink);opacity:0.8;line-height:1.9;font-style:italic;margin-bottom:24px}
+#act5 .a5-kiss-count{font-size:clamp(2.6rem,7vw,4rem);font-weight:800;color:var(--accent-soft);font-family:var(--font-display);line-height:1;text-shadow:0 0 30px rgba(201,162,39,0.4)}
+#act5 .a5-kiss-label{font-size:0.68rem;letter-spacing:4px;color:var(--ink);opacity:0.6;text-transform:uppercase;margin-bottom:20px}
+#act5 .a5-kiss-btn{width:120px;height:120px;border-radius:50%;cursor:pointer;position:relative;background:radial-gradient(circle at 35% 30%,#D43D3D,#8B1A1A);color:#F5E6D3;font-family:var(--font-display);font-size:0.95rem;letter-spacing:2px;line-height:1.5;border:3px solid rgba(201,162,39,0.6);box-shadow:0 8px 30px rgba(0,0,0,0.4),inset 0 -4px 8px rgba(0,0,0,0.3),inset 0 4px 8px rgba(255,255,255,0.1);transition:transform .2s;overflow:visible;text-shadow:0 1px 2px rgba(0,0,0,0.4)}
+#act5 .a5-kiss-btn::before{content:'';position:absolute;inset:-6px;border-radius:50%;border:2px dashed rgba(201,162,39,0.4);animation:a5Stamp 3s ease-in-out infinite;pointer-events:none}
+#act5 .a5-kiss-btn:hover{transform:translateY(-3px)}
+#act5 .a5-kiss-btn:active{transform:scale(0.92) translateY(4px)}
+@keyframes a5Stamp{0%,100%{transform:rotate(0)}50%{transform:rotate(8deg)}}
+#act5 .a5-hint{font-size:0.75rem;color:var(--ink);opacity:0.5;margin-top:14px;letter-spacing:2px;position:relative;z-index:5}
+#act5 .a5-orn{position:absolute;z-index:3;pointer-events:none;opacity:0.5}
+#act5 .a5-orn.o1{top:8%;left:6%;width:70px}
+#act5 .a5-orn.o2{top:10%;right:7%;width:56px}
+#act5 .a5-orn.o3{bottom:10%;left:10%;width:50px;opacity:0.35}
+#act5 .a5-orn.o4{bottom:12%;right:9%;width:60px;opacity:0.35}
+
+/* ============ 幕6 焰·城 赛博朋克 ============ */
+#act6{display:flex;align-items:center;justify-content:center}
+#act6 .cyber-bg{position:absolute;inset:0;background:url('素材库/图片素材/背景大图/12-赛博朋克/cyber-1.jpg') center/cover no-repeat;opacity:0.18;z-index:0}
+#act6 .cyber-grid{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0.12;background-image:linear-gradient(rgba(0,240,255,0.25) 1px,transparent 1px),linear-gradient(90deg,rgba(255,0,240,0.25) 1px,transparent 1px);background-size:50px 50px;transform:perspective(400px) rotateX(60deg);transform-origin:bottom}
+#act6 .a6-layout{position:relative;z-index:5;display:grid;grid-template-columns:1.6fr 1fr;gap:40px;max-width:980px;width:100%;padding:0 6%;align-items:center}
+#act6 .a6-left{text-align:left}
+#act6 .a6-kicker{font-size:0.68rem;letter-spacing:6px;text-transform:uppercase;color:var(--accent);margin-bottom:14px;text-shadow:0 0 20px var(--accent)}
+#act6 .a6-title{font-family:var(--font-display);font-size:clamp(1.8rem,5vw,3rem);color:var(--ink);margin-bottom:10px;text-shadow:0 0 30px rgba(0,240,255,0.4)}
+#act6 .a6-quote{font-size:1rem;color:var(--ink);opacity:0.85;line-height:1.9;margin-bottom:28px;font-style:italic}
+#act6 .a6-meter{position:relative;width:min(300px,80vw);margin:0 auto}
+#act6 .a6-meter svg{width:100%;display:block;filter:drop-shadow(0 0 16px rgba(255,0,240,0.3))}
+#act6 .a6-val{text-align:center;font-size:clamp(2rem,5vw,2.8rem);font-weight:800;color:var(--ink);margin-top:-8px;text-shadow:0 0 24px var(--accent)}
+#act6 .a6-collect{display:flex;flex-direction:column;align-items:center;gap:16px}
+#act6 .a6-collect-tip{font-size:0.75rem;letter-spacing:3px;color:var(--ink);opacity:0.7;text-transform:uppercase}
+#act6 .a6-heart-btn{width:86px;height:86px;border-radius:50%;cursor:pointer;position:relative;background:radial-gradient(circle,rgba(255,0,240,0.25),rgba(0,0,0,0.4));border:1px solid var(--accent);box-shadow:0 0 30px rgba(255,0,240,0.4),inset 0 0 24px rgba(255,0,240,0.15);display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--accent);transition:all .2s;touch-action:manipulation}
+#act6 .a6-heart-btn:active{transform:scale(0.88)}
+#act6 .a6-heart-btn .pulse{position:absolute;inset:-8px;border-radius:50%;border:1px solid var(--accent);opacity:0;animation:a6Pulse 2.5s ease-out infinite}
+@keyframes a6Pulse{0%{transform:scale(0.9);opacity:0.6}100%{transform:scale(1.4);opacity:0}}
+#act6 .a6-collected{font-size:1.1rem;color:var(--ink);letter-spacing:2px}
+#act6 .a6-collected b{color:var(--accent);font-size:1.4rem}
+#act6 .a6-frag{position:absolute;pointer-events:none;color:var(--accent);font-size:1rem;text-shadow:0 0 16px var(--accent);animation:a6FloatUp 1.2s ease-out forwards;opacity:0}
+@keyframes a6FloatUp{0%{transform:translateY(0) scale(1);opacity:1}100%{transform:translateY(-60px) scale(1.4);opacity:0}}
+#act6 .a6-hint{font-size:0.72rem;color:var(--ink);opacity:0.6;margin-top:16px;letter-spacing:2px}
+#act6 .a6-orn{position:absolute;z-index:2;pointer-events:none;opacity:0.4}
+#act6 .a6-orn.o1{top:12%;right:8%;width:56px}
+#act6 .a6-orn.o2{bottom:14%;left:6%;width:40px;opacity:0.3}
+
+@media(max-width:768px){
+  nav{padding:14px 18px}
+  nav .act-menu{display:none}
+  #styleBoard{right:12px;padding:10px 12px}
+  .act-num{left:18px;top:80px}
+  #act2 .a2-layout{grid-template-columns:1fr;gap:28px}
+  #act4 .a4-layout{grid-template-columns:1fr;gap:20px}
+  #act4 .a4-side{flex-direction:row;flex-wrap:wrap}
+  #act4 .a4-side img{width:45%}
+  #act6 .a6-layout{grid-template-columns:1fr;gap:28px;text-align:center}
+  #act6 .a6-left{text-align:center}
+}
+
+/* 无障碍:尊重减少动效偏好 */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">情书<em>·</em>工坊</div>
+  <div class="act-menu">
+    <a href="#act1" data-a="1">字</a>
+    <a href="#act2" data-a="2">纸</a>
+    <a href="#act3" data-a="3">礼</a>
+    <a href="#act4" data-a="4">园</a>
+    <a href="#act5" data-a="5">殿</a>
+    <a href="#act6" data-a="6">焰</a>
+  </div>
+</nav>
+<div id="progress"></div>
+
+<!-- 风格指示器 -->
+<div id="styleBoard">
+  <span class="sb-label">Style</span>
+  <span class="sb-cur" id="sbCur">瑞士极简</span>
+  <span class="sb-flip" id="sbFlip">现代高级</span>
+</div>
+
+<!-- 幕布 -->
+<div id="curtain"><div class="panel p-l"></div><div class="panel p-r"></div></div>
+
+<!-- 背景音乐开关 -->
+<button id="bgmBtn" style="position:fixed;bottom:22px;right:22px;z-index:500;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(8px);color:var(--ink);cursor:pointer;font-size:1rem;opacity:0.7">♪</button>
+<audio id="bgmAudio" loop preload="none"></audio>
+
+<!-- 六幕 -->
+<!-- ============ 幕1 字·白 瑞士极简/现代高级 ============ -->
+<section class="act" id="act1">
+  <div class="swiss-bg"></div>
+  <div class="a1-swipe"><div class="sw-line"></div><div class="sw-line"></div><div class="sw-line"></div></div>
+  <img class="a1-orn o1" src="素材库/图片素材/小元素/01-瑞士排版/swiss-3-a.jpg" alt="">
+  <img class="a1-orn o2" src="素材库/图片素材/小元素/01-瑞士排版/swiss-4-b.jpg" alt="">
+  <img class="a1-orn o3" src="素材库/图片素材/小元素/01-瑞士排版/swiss-5-c.jpg" alt="">
+  <div class="act1-inner">
+    <p class="a1-kicker reveal">Act I · 字 · Swiss Minimal</p>
+    <h2 class="a1-title reveal">我删掉了所有<em>形容词</em>,<br>只剩你。</h2>
+    <div class="a1-type reveal" id="a1Type"></div>
+  </div>
+  <div class="cap-bar reveal">
+    <span class="cap">风格 <b>瑞士极简 / 现代高级</b></span>
+    <span class="cap">氛围 <b>高级冷淡</b></span>
+    <span class="cap">复杂度 <b>极简</b></span>
+    <span class="cap">互动 <b>打字机</b></span>
+    <span class="cap">可选 <b>多语言</b></span>
+    <span class="cap">适合 <b>正式告白</b></span>
+  </div>
+</section>
+
+<!-- ============ 幕2 纸·语 文艺杂志/日式侘寂 ============ -->
+<section class="act" id="act2">
+  <div class="paper-bg"></div>
+  <img class="a2-orn o1" src="素材库/图片素材/小元素/03-文艺杂志/1666839145487776-a.jpg" alt="">
+  <img class="a2-orn o2" src="素材库/图片素材/小元素/04-日式侘寂/wabisabi-3-b.jpg" alt="">
+  <div class="a2-layout">
+    <div class="a2-left">
+      <p class="a2-kicker reveal">Act II · 纸 · Editorial</p>
+      <p class="a2-quote reveal">那些没说出口的,<br>变成<em>心</em>,<br>落在你翻过的每一页。</p>
+      <p class="a2-sign reveal">—— 未寄出</p>
+    </div>
+    <div class="a2-card reveal" id="a2Card" role="button" tabindex="0" aria-label="点击收藏一枚心">
+      <canvas class="heart-canvas" id="a2Canvas"></canvas>
+      <span class="a2-count">♡ <b id="a2Count">0</b></span>
+      <p class="a2-hint">点击卡片 · 收藏一枚心</p>
+    </div>
+  </div>
+  <div class="cap-bar reveal">
+    <span class="cap">风格 <b>文艺杂志 / 日式侘寂</b></span>
+    <span class="cap">氛围 <b>深情悲伤</b></span>
+    <span class="cap">复杂度 <b>简单</b></span>
+    <span class="cap">互动 <b>爱心飘落+点击收集</b></span>
+    <span class="cap">可选 <b>背景音乐</b></span>
+    <span class="cap">适合 <b>纪念日</b></span>
+  </div>
+</section>
+
+<!-- ============ 幕3 礼·痕 新中式/复古胶片 ============ -->
+<section class="act" id="act3">
+  <div class="ink-bg"></div>
+  <div class="film-grain"></div>
+  <img class="a3-orn o1" src="素材库/图片素材/小元素/05-新中式/ink-1-a.jpg" alt="">
+  <img class="a3-orn o2" src="素材库/图片素材/小元素/05-新中式/ink-4-c.jpg" alt="">
+  <p class="a3-kicker reveal">Act III · 礼 · Chinoiserie</p>
+  <h2 class="a3-title reveal">一笔一画,<br>是我在时间里<em>描你的名字</em>。</h2>
+  <p class="a3-sub reveal">沿金线由外向内 · 三层描摹</p>
+  <div class="a3-canvas-wrap reveal">
+    <svg id="heartSvg3" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid meet"
+         style="width:100%;height:100%;touch-action:none;cursor:crosshair;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none">
+      <defs>
+        <!-- 毛笔淡描质感:轻微位移产生粗糙边缘 -->
+        <filter id="roughInk" x="-5%" y="-5%" width="110%" height="110%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="noise"/>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+        <!-- 墨点渐变 -->
+        <radialGradient id="inkGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#7B1E1E" stop-opacity="0.9"/>
+          <stop offset="70%" stop-color="#7B1E1E" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#7B1E1E" stop-opacity="0.1"/>
+        </radialGradient>
+      </defs>
+      <!-- 引导线(淡描层) -->
+      <g id="guideLayer" opacity="0.35" filter="url(#roughInk)">
+        <path id="h3o" d="M200 235 C120 195,60 165,60 110 C60 72,88 50,120 50 C150 50,178 68,190 88 C202 68,230 50,260 50 C292 50,320 72,320 110 C320 165,260 195,200 235 Z" fill="none" stroke="#B03A2E" stroke-width="2.5" stroke-linecap="round"/>
+        <path id="h3m" d="M200 218 C133 185,80 158,80 112 C80 82,102 65,127 65 C153 65,178 80,190 98 C202 80,227 65,253 65 C278 65,300 82,300 112 C300 158,247 185,200 218 Z" fill="none" stroke="#B03A2E" stroke-width="2" stroke-linecap="round"/>
+        <path id="h3i" d="M200 200 C148 175,105 152,105 115 C105 92,121 79,140 79 C162 79,183 91,190 107 C197 91,218 79,240 79 C259 79,275 92,275 115 C275 152,232 175,200 200 Z" fill="none" stroke="#B03A2E" stroke-width="1.6" stroke-linecap="round"/>
+      </g>
+      <!-- 笔迹层(浓墨,初始隐藏) -->
+      <g id="inkLayer" opacity="1">
+        <path id="h3oInk" d="M200 235 C120 195,60 165,60 110 C60 72,88 50,120 50 C150 50,178 68,190 88 C202 68,230 50,260 50 C292 50,320 72,320 110 C320 165,260 195,200 235 Z" fill="none" stroke="#7B1E1E" stroke-width="4" stroke-linecap="round"/>
+        <path id="h3mInk" d="M200 218 C133 185,80 158,80 112 C80 82,102 65,127 65 C153 65,178 80,190 98 C202 80,227 65,253 65 C278 65,300 82,300 112 C300 158,247 185,200 218 Z" fill="none" stroke="#7B1E1E" stroke-width="3.5" stroke-linecap="round"/>
+        <path id="h3iInk" d="M200 200 C148 175,105 152,105 115 C105 92,121 79,140 79 C162 79,183 91,190 107 C197 91,218 79,240 79 C259 79,275 92,275 115 C275 152,232 175,200 200 Z" fill="none" stroke="#7B1E1E" stroke-width="3" stroke-linecap="round"/>
+      </g>
+      <!-- 墨点轨迹层 -->
+      <g id="inkDots" pointer-events="none"></g>
+      <!-- 笔尖光点 -->
+      <circle id="brushTip" r="4" fill="#8B1A1A" opacity="0" pointer-events="none" style="mix-blend-mode:multiply"/>
+    </svg>
+    <div class="a3-progress reveal"><div class="a3-fill" id="a3Fill"></div></div>
+    <p class="a3-hint reveal" id="a3Hint">以心为引 · 沿痕描摹</p>
+    <div class="a3-seal reveal" id="a3Seal">心</div>
+  </div>
+  <div class="cap-bar reveal">
+    <span class="cap">风格 <b>新中式 / 复古胶片</b></span>
+    <span class="cap">氛围 <b>浪漫优雅</b></span>
+    <span class="cap">复杂度 <b>适中</b></span>
+    <span class="cap">互动 <b>画心三层描摹</b></span>
+    <span class="cap">可选 <b>字体偏好</b></span>
+    <span class="cap">适合 <b>求婚·中式婚礼</b></span>
+  </div>
+</section>
+
+<!-- ============ 幕4 园·梦 水彩/手绘/森系 ============ -->
+<section class="act" id="act4">
+  <div class="water-bg"></div>
+  <img class="a4-orn o1" src="素材库/图片素材/小元素/07-水彩晕染/water-1-a.jpg" alt="">
+  <img class="a4-orn o2" src="素材库/图片素材/小元素/09-森系自然/forest-2-c.jpg" alt="">
+  <div class="a4-layout">
+    <div class="a4-side s1 reveal">
+      <img src="素材库/图片素材/背景大图/08-手绘插画/hand-1.jpg" alt="">
+      <img src="素材库/图片素材/背景大图/09-森系自然/forest-2.jpg" alt="">
+    </div>
+    <div class="a4-center">
+      <p class="a4-kicker reveal">Act IV · 园 · Watercolor</p>
+      <h2 class="a4-title reveal">把星期一的赖床、星期六的糊粥,<br>拼成一座会长出<em>花</em>的森林。</h2>
+      <div class="puzzle-box reveal" id="puzzleBox">
+        <div class="p-slot">
+          <div class="slot">花</div><div class="slot">草</div><div class="slot">木</div><div class="slot">林</div>
+        </div>
+      </div>
+      <p class="a4-hint reveal">拖拽碎片 · 拼合画面</p>
+    </div>
+    <div class="a4-side s2 reveal">
+      <img src="素材库/图片素材/背景大图/07-水彩晕染/1936339414.jpg" alt="">
+      <img src="素材库/图片素材/背景大图/09-森系自然/forest-3.jpg" alt="">
+    </div>
+  </div>
+  <div class="cap-bar reveal">
+    <span class="cap">风格 <b>水彩晕染/手绘插画/森系</b></span>
+    <span class="cap">氛围 <b>甜蜜治愈</b></span>
+    <span class="cap">复杂度 <b>复杂</b></span>
+    <span class="cap">互动 <b>拼图</b></span>
+    <span class="cap">可选 <b>设备适配</b></span>
+    <span class="cap">适合 <b>日常浪漫</b></span>
+  </div>
+</section>
+
+<!-- ============ 幕5 殿·誓 巴洛克/维多利亚 ============ -->
+<section class="act" id="act5">
+  <div class="baroque-bg"></div>
+  <div class="a5-vignette"></div>
+  <img class="a5-orn o1" src="素材库/图片素材/小元素/10-巴洛克洛可可/baroque-2-a.jpg" alt="">
+  <img class="a5-orn o2" src="素材库/图片素材/小元素/10-巴洛克洛可可/baroque-3-b.jpg" alt="">
+  <img class="a5-orn o3" src="素材库/图片素材/小元素/11-欧式复古维多利亚/vintage-2-c.jpg" alt="">
+  <img class="a5-orn o4" src="素材库/图片素材/小元素/10-巴洛克洛可可/baroque-4-a.jpg" alt="">
+  <p class="a5-kicker reveal">Act V · 殿 · Baroque</p>
+  <div class="a5-cert reveal" id="a5Cert">
+    <p class="a5-royal">王室认证</p>
+    <h3 class="a5-cert-title">爱情认证证书</h3>
+    <p class="a5-quote">经王室认证:你是本王唯一指定心上人。<br>本证书永久有效,且不可撤回。</p>
+    <div class="a5-kiss-count" id="a5Count">0</div>
+    <p class="a5-kiss-label">Kisses Count</p>
+    <button class="a5-kiss-btn" id="a5KissBtn" aria-label="献上亲吻">💋 献上亲吻</button>
+  </div>
+  <p class="a5-hint reveal">长按连击 · 金粉见证</p>
+  <div class="cap-bar reveal">
+    <span class="cap">风格 <b>巴洛克洛可可/欧式复古</b></span>
+    <span class="cap">氛围 <b>搞笑幽默</b></span>
+    <span class="cap">复杂度 <b>复杂</b></span>
+    <span class="cap">互动 <b>亲吻计数器</b></span>
+    <span class="cap">可选 <b>背景音乐</b></span>
+    <span class="cap">适合 <b>婚礼誓词</b></span>
+  </div>
+</section>
+
+<!-- ============ 幕6 焰·城 赛博朋克 ============ -->
+<section class="act" id="act6">
+  <div class="cyber-bg"></div>
+  <div class="cyber-grid"></div>
+  <img class="a6-orn o1" src="素材库/图片素材/小元素/12-赛博朋克/cyber-1-a.jpg" alt="">
+  <img class="a6-orn o2" src="素材库/图片素材/小元素/12-赛博朋克/cyber-4-c.jpg" alt="">
+  <div class="a6-layout">
+    <div class="a6-left">
+      <p class="a6-kicker reveal">Act VI · 焰 · Cyberpunk</p>
+      <h2 class="a6-title reveal">在霓虹里,<br>我们的<em>信号</em>永不丢失。</h2>
+      <p class="a6-quote reveal">每一颗霓虹,都是一次心跳。<br>收集它们,点亮我们的爱情指数。</p>
+      <div class="a6-meter reveal">
+        <svg viewBox="0 0 200 120">
+          <path d="M20 100 A 80 80 0 0 1 180 100" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="10" stroke-linecap="round"/>
+          <path id="a6Arc" d="M20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#FF00F0" stroke-width="10" stroke-linecap="round" stroke-dasharray="0 251" style="transition:stroke-dasharray .5s;filter:drop-shadow(0 0 8px #FF00F0)"/>
+        </svg>
+        <div class="a6-val" id="a6Val">0%</div>
+      </div>
+    </div>
+    <div class="a6-collect reveal">
+      <p class="a6-collect-tip">Collect Love Signals</p>
+      <button class="a6-heart-btn" id="a6HeartBtn" aria-label="收集一颗霓虹爱心"><span class="pulse" aria-hidden="true"></span><span aria-hidden="true">♥</span></button>
+      <p class="a6-collected">已收集 <b id="a6Collected">0</b> / 10</p>
+      <p class="a6-hint">点击收集 · 满 10 触发全屏故障</p>
+    </div>
+  </div>
+  <div class="cap-bar reveal">
+    <span class="cap">风格 <b>赛博朋克</b></span>
+    <span class="cap">氛围 <b>热血激情</b></span>
+    <span class="cap">复杂度 <b>复杂</b></span>
+    <span class="cap">互动 <b>爱情指数+点击收集</b></span>
+    <span class="cap">可选 <b>多语言</b></span>
+    <span class="cap">适合 <b>虚拟应援</b></span>
+  </div>
+</section>
+
+<script>
+'use strict';
+/* ============ 骨架 JS:幕切换/进度/幕布 ============ */
+const ACTS=[
+  {id:1,styles:['瑞士极简','现代高级'],bg:'#FFFFFF',ink:'#111111',accent:'#E30613'},
+  {id:2,styles:['文艺杂志','日式侘寂'],bg:'#F7F3E8',ink:'#2B3A4A',accent:'#C9A9A6'},
+  {id:3,styles:['新中式','复古胶片'],bg:'#F2EAD8',ink:'#1F1F1F',accent:'#B03A2E'},
+  {id:4,styles:['水彩晕染','手绘插画','森系自然'],bg:'#FDF8F0',ink:'#5A6B52',accent:'#A3B89A'},
+  {id:5,styles:['巴洛克洛可可','欧式复古'],bg:'#4A0E1B',ink:'#FFF2D6',accent:'#C9A227'},
+  {id:6,styles:['赛博朋克'],bg:'#12001A',ink:'#00E5EE',accent:'#FF00F0'}
+];
+const sbCur=document.getElementById('sbCur'),sbFlip=document.getElementById('sbFlip');
+const progress=document.getElementById('progress');
+const menuLinks=document.querySelectorAll('.act-menu a');
+let curAct=1;
+
+function setAct(n){
+  curAct=n;
+  document.body.dataset.act=n;
+  const a=ACTS[n-1];
+  sbCur.textContent=a.styles[0];
+  sbFlip.innerHTML=a.styles.slice(1).map(s=>`<span>${s}</span>`).join('')||'<span>—</span>';
+  menuLinks.forEach(l=>l.classList.toggle('on',+l.dataset.a===n));
+}
+
+/* 滚动监听 */
+addEventListener('scroll',()=>{
+  const h=document.documentElement;
+  progress.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+},{passive:true});
+
+/* 幕切换:IntersectionObserver 精确判定 */
+const actIO=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){setAct(+e.target.id.replace('act',''));}
+  });
+},{threshold:0.55});
+for(let i=1;i<=6;i++){const el=document.getElementById('act'+i);if(el)actIO.observe(el);}
+setAct(1);
+
+/* 幕布:进入后拉开 */
+window.addEventListener('load',()=>{
+  setTimeout(()=>document.body.classList.add('curtain-close'),100);
+});
+
+/* 图片统一降级:本地素材路径在部署环境 404 时隐藏破图,并懒加载 */
+document.addEventListener('error',e=>{
+  const t=e.target;
+  if(t&&t.tagName==='IMG'){t.style.display='none';}
+},true);
+document.querySelectorAll('img').forEach(im=>{im.loading='lazy';});
+
+/* ============ 背景音乐 ============ */
+const bgmBtn=document.getElementById('bgmBtn');
+const bgmAudio=document.getElementById('bgmAudio');
+const BGM={
+  1:'素材库/音乐库/Gymnopédie_No.1_Émile-Étienne_Picard.mp3',
+  2:'素材库/音乐库/悲伤钢琴曲.mp3',
+  3:'素材库/音乐库/纪念_优雅浪漫钢琴曲.mp3',
+  4:'素材库/音乐库/Heartwarming_DN钢琴.mp3',
+  5:'素材库/音乐库/甜蜜蜜_浪漫钢琴.mp3',
+  6:'素材库/音乐库/Moonlight_Shadow_Dana_Winner.mp3'
+};
+let bgmOn=false;
+bgmBtn.addEventListener('click',()=>{
+  bgmOn=!bgmOn;
+  if(bgmOn){bgmAudio.src=BGM[curAct];bgmAudio.play().catch(()=>{});bgmBtn.textContent='♪';bgmBtn.style.opacity='1';}
+  else{bgmAudio.pause();bgmBtn.textContent='♪';bgmBtn.style.opacity='0.5';}
+});
+/* 切幕换曲 */
+let lastBgmAct=curAct;
+setInterval(()=>{if(bgmOn&&lastBgmAct!==curAct){lastBgmAct=curAct;bgmAudio.src=BGM[curAct];bgmAudio.play().catch(()=>{});}},1500);
+
+/* ============ 滚动揭示 ============ */
+const io=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}});
+},{threshold:0.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ============ 幕1 打字机(html版 08 移植) ============ */
+(function(){
+  const out=document.getElementById('a1Type');
+  if(!out)return;
+  const TEXTS={
+    zh:'3月14日,你在便利店门口等我。\n风把你的围巾吹起来,\n我突然觉得,\n「心动」这个词原来不是修辞。',
+    en:'March 14. You waited for me outside the convenience store.\nThe wind lifted your scarf.\nSuddenly I understood—\nwhat "falling" really feels like.',
+    ja:'3月14日、コンビニの前で待つあなた。\n風がマフラーを揺らして、\n「恋」という言葉が\n修辞ではなくなった瞬間。'
+  };
+  let cur='zh';
+  const cursor=document.createElement('span');
+  cursor.className='a1-cursor';
+  out.appendChild(cursor);
+  function type(text,i){
+    if(i>=text.length){setTimeout(()=>{out.innerHTML='';out.appendChild(cursor);type(TEXTS[cur],0);},3000);return;}
+    const ch=text[i];
+    if(ch==='\n')out.insertBefore(document.createElement('br'),cursor);
+    else out.insertBefore(document.createTextNode(ch),cursor);
+    setTimeout(()=>type(text,i+1),85);
+  }
+  out.addEventListener('click',()=>{
+    cur=cur==='zh'?'en':cur==='en'?'ja':'zh';
+    out.innerHTML='';out.appendChild(cursor);type(TEXTS[cur],0);
+  });
+  type(TEXTS.zh,0);
+})();
+
+/* ============ 幕2 爱心飘落+点击收集(Canvas) ============ */
+(function(){
+  const cv=document.getElementById('a2Canvas');
+  if(!cv)return;
+  const ctx=cv.getContext('2d');
+  let W,H,dpr=Math.min(devicePixelRatio||1,2);
+  function resize(){const r=cv.getBoundingClientRect();W=cv.width=r.width*dpr;H=cv.height=r.height*dpr;cv.style.width=r.width+'px';cv.style.height=r.height+'px';}
+  resize();addEventListener('resize',resize);
+  let count=0;
+  const heartColor=getComputedStyle(document.body).getPropertyValue('--accent').trim()||'#C9A9A6';
+  const hearts=[];
+  const N=60;
+  for(let i=0;i<N;i++)hearts.push(makeHeart(true));
+  function makeHeart(rand){
+    return {
+      x:Math.random()*W,y:rand?Math.random()*H:-20,
+      s:(Math.random()*14+6)*dpr,v:(Math.random()*0.8+0.3)*dpr,
+      drift:(Math.random()-0.5)*0.6*dpr,
+      phase:Math.random()*6.28,alpha:Math.random()*0.5+0.3
+    };
+  }
+  function drawHeart(x,y,s,alpha){
+    ctx.save();ctx.translate(x,y);ctx.scale(s/20,s/20);ctx.globalAlpha=alpha;
+    ctx.fillStyle=heartColor;
+    ctx.beginPath();
+    ctx.moveTo(0,5);
+    ctx.bezierCurveTo(-10,-4,-6,-12,0,-5);
+    ctx.bezierCurveTo(6,-12,10,-4,0,5);
+    ctx.fill();ctx.restore();
+  }
+  function render(){
+    ctx.clearRect(0,0,W,H);
+    for(const h of hearts){
+      h.y-=h.v;h.x+=Math.sin(h.phase+=0.02)*0.3*dpr+h.drift;
+      if(h.y<-30){Object.assign(h,makeHeart(false));}
+      drawHeart(h.x,h.y,h.s,h.alpha);
+    }
+    requestAnimationFrame(render);
+  }
+  render();
+  /* 点击收集 */
+  const card=document.getElementById('a2Card');
+  const cntEl=document.getElementById('a2Count');
+  card.addEventListener('pointerdown',e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left)*dpr,y=(e.clientY-r.top)*dpr;
+    count++;cntEl.textContent=count;
+    for(let i=0;i<10;i++){
+      setTimeout(()=>{
+        const ex=x+(Math.random()-0.5)*60*dpr,ey=y+(Math.random()-0.5)*60*dpr;
+        drawHeart(ex,ey,(Math.random()*10+4)*dpr,0.7);
+      },i*40);
+    }
+    if(count%10===0){
+      cntEl.style.transition='transform .3s';cntEl.style.transform='scale(1.6)';
+      setTimeout(()=>cntEl.style.transform='scale(1)',300);
+    }
+  });
+  card.addEventListener('keydown',e=>{
+    if(e.key==='Enter'||e.key===' '){
+      e.preventDefault();
+      const r=card.getBoundingClientRect();
+      card.dispatchEvent(new PointerEvent('pointerdown',{clientX:r.left+r.width/2,clientY:r.top+r.height/2}));
+    }
+  });
+})();
+
+/* ============ 幕3 三层画心(V4 改进版:路径跟随+毛笔笔触+分层反馈) ============ */
+(function(){
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const svg = document.getElementById('heartSvg3');
+  if (!svg) return;
+  const guidePaths = { o: document.getElementById('h3o'), m: document.getElementById('h3m'), i: document.getElementById('h3i') };
+  const inkPaths = { o: document.getElementById('h3oInk'), m: document.getElementById('h3mInk'), i: document.getElementById('h3iInk') };
+  const inkDotsGroup = document.getElementById('inkDots');
+  const brushTip = document.getElementById('brushTip');
+  const fillBar = document.getElementById('a3Fill');
+  const hintEl = document.getElementById('a3Hint');
+  const sealEl = document.getElementById('a3Seal');
+  const LENS = {};
+  for (const key in guidePaths) LENS[key] = guidePaths[key].getTotalLength();
+  const SAMPLES_PER_PATH = 180;
+  const samples = {};
+  for (const key in guidePaths) {
+    const path = guidePaths[key], len = LENS[key], arr = [];
+    for (let i = 0; i <= SAMPLES_PER_PATH; i++) {
+      const t = i / SAMPLES_PER_PATH;
+      const pt = path.getPointAtLength(len * t);
+      arr.push({ x: pt.x, y: pt.y, t });
+    }
+    samples[key] = arr;
+  }
+  for (const key in inkPaths) {
+    inkPaths[key].setAttribute('stroke-dasharray', LENS[key]);
+    inkPaths[key].setAttribute('stroke-dashoffset', LENS[key]);
+    inkPaths[key].style.opacity = '0';
+  }
+  const WEIGHTS = { o: 0.40, m: 0.35, i: 0.25 };
+  const prog = { o: 0, m: 0, i: 0 };
+  const currentSampleIndex = { o: 0, m: 0, i: 0 };
+  const layersCompleted = { o: false, m: false, i: false };
+  let activeLayer = 'o';
+  let drawing = false, filled = false;
+  let lastMoveTime = 0, lastClientX = 0, lastClientY = 0, pendingMove = false;
+  const MAX_DOTS = 150, dotPool = [];
+  let dotCursor = 0;
+  function getDot(){
+    if (dotPool.length < MAX_DOTS) {
+      const c = document.createElementNS(SVG_NS, 'circle');
+      c.setAttribute('fill', 'url(#inkGrad)');
+      c.setAttribute('style', 'mix-blend-mode:multiply;');
+      c.setAttribute('pointer-events', 'none');
+      inkDotsGroup.appendChild(c);
+      dotPool.push(c);
+      return c;
+    } else { const c = dotPool[dotCursor % MAX_DOTS]; dotCursor++; return c; }
+  }
+  function svgPoint(clientX, clientY){
+    const r = svg.getBoundingClientRect();
+    return { x: (clientX - r.left) / r.width * 400, y: (clientY - r.top) / r.height * 280 };
+  }
+  function findNearestSample(key, pt, windowRadius = 20){
+    const arr = samples[key], n = arr.length, startIdx = currentSampleIndex[key];
+    let minSq = Infinity, minIdx = startIdx;
+    const lo = Math.max(0, startIdx - windowRadius), hi = Math.min(n - 1, startIdx + windowRadius);
+    for (let i = lo; i <= hi; i++) {
+      const dx = arr[i].x - pt.x, dy = arr[i].y - pt.y, sq = dx * dx + dy * dy;
+      if (sq < minSq) { minSq = sq; minIdx = i; }
+    }
+    const THRESHOLD_SQ = 18 * 18;
+    if (minSq > THRESHOLD_SQ) {
+      minSq = Infinity; minIdx = startIdx;
+      for (let i = 0; i < n; i++) {
+        const dx = arr[i].x - pt.x, dy = arr[i].y - pt.y, sq = dx * dx + dy * dy;
+        if (sq < minSq) { minSq = sq; minIdx = i; }
+      }
+    }
+    return { index: minIdx, sqDist: minSq, point: arr[minIdx], t: arr[minIdx].t };
+  }
+  function calcBrushRadius(speed){
+    const maxR = 6, minR = 2;
+    if (speed < 0.02) return maxR;
+    if (speed > 0.3) return minR;
+    return maxR - (speed - 0.02) / 0.28 * (maxR - minR);
+  }
+  function addInkDot(x, y, radius, opacity = 0.7){
+    const dot = getDot();
+    dot.setAttribute('cx', x); dot.setAttribute('cy', y);
+    dot.setAttribute('r', radius); dot.setAttribute('opacity', opacity);
+    dot.style.display = '';
+    return dot;
+  }
+  function processPoint(clientX, clientY){
+    const pt = svgPoint(clientX, clientY);
+    const key = activeLayer;
+    if (!key) return;
+    const result = findNearestSample(key, pt, 20);
+    const dist = Math.sqrt(result.sqDist);
+    if (dist > 18) { brushTip.style.opacity = '0'; return; }
+    currentSampleIndex[key] = result.index;
+    const t = result.t;
+    const maxStep = 0.12;
+    if (t > prog[key] && (t - prog[key]) <= maxStep) prog[key] = t;
+    else if (t - prog[key] > maxStep) { brushTip.style.opacity = '0'; return; }
+    const inkPath = inkPaths[key];
+    inkPath.style.opacity = '1';
+    inkPath.setAttribute('stroke-dashoffset', LENS[key] * (1 - prog[key]));
+    const now = performance.now(), dt = now - lastMoveTime;
+    let speed = 0;
+    if (dt > 0) {
+      const dx = clientX - lastClientX, dy = clientY - lastClientY;
+      const scale = 400 / (svg.getBoundingClientRect().width || 400);
+      speed = (Math.sqrt(dx * dx + dy * dy) / dt) * scale;
+    }
+    lastMoveTime = now; lastClientX = clientX; lastClientY = clientY;
+    const brushR = calcBrushRadius(speed);
+    addInkDot(result.point.x, result.point.y, brushR, 0.7);
+    brushTip.setAttribute('cx', result.point.x);
+    brushTip.setAttribute('cy', result.point.y);
+    brushTip.setAttribute('r', brushR);
+    brushTip.style.opacity = '0.9';
+    if (prog[key] >= 0.995 && !layersCompleted[key]) {
+      layersCompleted[key] = true;
+      onLayerComplete(key);
+    }
+    updateTotalProgress();
+  }
+  function onLayerComplete(key){
+    const inkPath = inkPaths[key];
+    inkPath.classList.add('layer-done');
+    setTimeout(() => inkPath.classList.remove('layer-done'), 800);
+    const endPoint = samples[key][samples[key].length - 1];
+    const burstCount = 6;
+    for (let i = 0; i < burstCount; i++) {
+      const angle = (Math.PI * 2 / burstCount) * i + Math.random() * 0.5;
+      const dx = Math.cos(angle) * (10 + Math.random() * 15);
+      const dy = Math.sin(angle) * (10 + Math.random() * 15);
+      const particle = document.createElementNS(SVG_NS, 'circle');
+      particle.setAttribute('cx', endPoint.x); particle.setAttribute('cy', endPoint.y);
+      particle.setAttribute('r', 3); particle.setAttribute('fill', '#B03A2E');
+      particle.style.setProperty('--dx', dx + 'px'); particle.style.setProperty('--dy', dy + 'px');
+      particle.classList.add('ink-burst-particle');
+      inkDotsGroup.appendChild(particle);
+      setTimeout(() => particle.remove(), 600);
+    }
+    const order = ['o', 'm', 'i'];
+    const idx = order.indexOf(key);
+    if (idx < order.length - 1) {
+      activeLayer = order[idx + 1];
+      hintEl.textContent = '请描摹' + (idx === 0 ? '中' : '内') + '层心形';
+    } else activeLayer = null;
+  }
+  function updateTotalProgress(){
+    const total = prog.o * WEIGHTS.o + prog.m * WEIGHTS.m + prog.i * WEIGHTS.i;
+    fillBar.style.width = Math.min(100, total * 100) + '%';
+    if (total >= 0.85 && !filled) {
+      filled = true;
+      sealEl.classList.add('seal-active');
+      hintEl.textContent = '✦ 心已成 · 落印为誓 ✦';
+      const burst = document.createElement('div');
+      burst.className = 'ink-burst-big';
+      sealEl.parentElement.appendChild(burst);
+      setTimeout(() => burst.remove(), 1200);
+    }
+  }
+  function handlePointerDown(e){
+    drawing = true; e.preventDefault();
+    const cX = e.clientX !== undefined ? e.clientX : e.touches[0].clientX;
+    const cY = e.clientY !== undefined ? e.clientY : e.touches[0].clientY;
+    lastClientX = cX; lastClientY = cY; lastMoveTime = performance.now();
+    pendingMove = true; processPoint(cX, cY);
+  }
+  function handlePointerMove(e){
+    if (!drawing) return; e.preventDefault();
+    const cX = e.clientX !== undefined ? e.clientX : e.touches[0].clientX;
+    const cY = e.clientY !== undefined ? e.clientY : e.touches[0].clientY;
+    lastClientX = cX; lastClientY = cY; pendingMove = true;
+  }
+  function handlePointerUp(){ drawing = false; pendingMove = false; brushTip.style.opacity = '0'; }
+  function animationLoop(){
+    if (pendingMove && drawing) { pendingMove = false; processPoint(lastClientX, lastClientY); }
+    requestAnimationFrame(animationLoop);
+  }
+  svg.addEventListener('pointerdown', handlePointerDown);
+  window.addEventListener('pointermove', handlePointerMove);
+  window.addEventListener('pointerup', handlePointerUp);
+  window.addEventListener('pointercancel', handlePointerUp);
+  svg.addEventListener('touchstart', e => { e.preventDefault(); handlePointerDown(e.touches[0]); }, { passive: false });
+  svg.addEventListener('touchmove', e => { e.preventDefault(); handlePointerMove(e.touches[0]); }, { passive: false });
+  svg.addEventListener('touchend', handlePointerUp);
+  requestAnimationFrame(animationLoop);
+})();
+
+/* ============ 幕4 拼图(4片拖拽) ============ */
+(function(){
+  const box=document.getElementById('puzzleBox');
+  if(!box)return;
+  const IMG='素材库/图片素材/背景大图/07-水彩晕染/1936339414.jpg';
+  const frags=[
+    {cls:'f1',target:['0%','0%']},{cls:'f2',target:['50%','0%']},
+    {cls:'f3',target:['0%','50%']},{cls:'f4',target:['50%','50%']}
+  ];
+  /* 先随机打乱 */
+  const spots=[['0%','0%'],['50%','0%'],['0%','50%'],['50%','50%']];
+  for(let i=spots.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[spots[i],spots[j]]=[spots[j],spots[i]];}
+  frags.forEach((f,i)=>{
+    const el=document.createElement('div');
+    el.className='p-frag '+f.cls;
+    el.style.backgroundImage=`url('${IMG}')`;
+    el.style.left=spots[i][0];el.style.top=spots[i][1];
+    el.dataset.tx=f.target[0];el.dataset.ty=f.target[1];
+    box.appendChild(el);
+    let dragging=false,sx=0,sy=0,ox=0,oy=0;
+    el.addEventListener('pointerdown',e=>{
+      dragging=true;el.classList.add('drag');
+      const r=el.getBoundingClientRect();const br=box.getBoundingClientRect();
+      sx=e.clientX;sy=e.clientY;ox=el.offsetLeft;oy=el.offsetTop;
+      el.style.zIndex=20;el.style.left=ox+'px';el.style.top=oy+'px';
+      e.preventDefault();
+    });
+    addEventListener('pointermove',e=>{
+      if(!dragging)return;
+      const dx=e.clientX-sx,dy=e.clientY-sy;
+      el.style.left=(ox+dx)+'px';el.style.top=(oy+dy)+'px';
+    });
+    addEventListener('pointerup',()=>{
+      if(!dragging)return;
+      dragging=false;el.classList.remove('drag');
+      const bw=box.clientWidth,bh=box.clientHeight;
+      const cx=parseFloat(el.style.left)+bw/4,cy=parseFloat(el.style.top)+bh/4;
+      const tx=parseFloat(el.dataset.tx)/100*bw+bw/4,ty=parseFloat(el.dataset.ty)/100*bh+bh/4;
+      if(Math.abs(cx-tx)<bw*0.18&&Math.abs(cy-ty)<bh*0.18){
+        el.style.left=el.dataset.tx;el.style.top=el.dataset.ty;
+        el.classList.add('done');el.style.zIndex=6;
+      }
+    });
+  });
+})();
+
+/* ============ 幕5 亲吻计数器+金粉爆发 ============ */
+(function(){
+  const btn=document.getElementById('a5KissBtn');
+  const cnt=document.getElementById('a5Count');
+  const cert=document.getElementById('a5Cert');
+  if(!btn)return;
+  let kisses=0,timer=null;
+  function kiss(){
+    kisses++;cnt.textContent=kisses;
+    /* 金粉爆发 */
+    burstGold();
+    cnt.style.transition='transform .15s';cnt.style.transform='scale(1.35)';
+    setTimeout(()=>cnt.style.transform='scale(1)',150);
+  }
+  /* 长按连击 */
+  btn.addEventListener('pointerdown',e=>{e.preventDefault();kiss();clearInterval(timer);timer=setInterval(kiss,160);});
+  btn.addEventListener('pointerup',()=>clearInterval(timer));
+  btn.addEventListener('pointercancel',()=>clearInterval(timer));
+  btn.addEventListener('pointerleave',()=>clearInterval(timer));
+  btn.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();kiss();}});
+  function burstGold(){
+    const r=cert.getBoundingClientRect();
+    const cx=r.left+r.width/2,cy=r.top+r.height/2;
+    for(let i=0;i<14;i++){
+      const p=document.createElement('span');
+      p.textContent=['❦','✦','♥'][i%3];
+      p.style.cssText=`position:fixed;left:${cx}px;top:${cy}px;color:#f0d878;font-size:${Math.random()*14+8}px;pointer-events:none;z-index:600;transition:all .9s cubic-bezier(0.22,1,0.36,1);text-shadow:0 0 12px rgba(240,216,120,.8)`;
+      document.body.appendChild(p);
+      const ang=Math.random()*6.28,dist=Math.random()*90+40;
+      requestAnimationFrame(()=>{
+        p.style.transform=`translate(${Math.cos(ang)*dist}px,${Math.sin(ang)*dist-60}px) rotate(${Math.random()*180}deg)`;
+        p.style.opacity='0';
+      });
+      setTimeout(()=>p.remove(),950);
+    }
+  }
+  /* 3D 视差 */
+  cert.addEventListener('pointermove',e=>{
+    const r=cert.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-0.5,y=(e.clientY-r.top)/r.height-0.5;
+    cert.style.transform=`rotateY(${x*10}deg) rotateX(${-y*8}deg)`;
+  });
+  cert.addEventListener('pointerleave',()=>{cert.style.transform='rotateY(0) rotateX(0)';});
+})();
+
+/* ============ 幕6 霓虹收集+爱情指数 ============ */
+(function(){
+  const btn=document.getElementById('a6HeartBtn');
+  const val=document.getElementById('a6Val');
+  const arc=document.getElementById('a6Arc');
+  const col=document.getElementById('a6Collected');
+  if(!btn)return;
+  let n=0;
+  function collect(){
+    n++;col.textContent=n;
+    const pct=Math.min(100,n*10);
+    val.textContent=pct+'%';
+    arc.style.strokeDasharray=(pct/100*251)+' 251';
+    /* 漂浮爱心 */
+    const r=btn.getBoundingClientRect();
+    const cx=r.left+r.width/2,cy=r.top+r.height/2;
+    for(let i=0;i<5;i++){
+      const f=document.createElement('span');
+      f.className='a6-frag';f.textContent='♥';
+      f.style.cssText=`left:${cx+(Math.random()-0.5)*40}px;top:${cy}px;z-index:600`;
+      document.body.appendChild(f);
+      setTimeout(()=>f.remove(),1200);
+    }
+    /* 故障门槛降低:第5次小故障,第10次大故障 */
+    if(n===5){glitch(300);}else if(n===10){glitch(1200);}
+  }
+  function glitch(ms){
+    document.body.classList.add('glitch-all');
+    document.body.style.animation=`a6Glitch .4s steps(2) ${Math.max(1,Math.round(ms/400))}`;
+    setTimeout(()=>{document.body.classList.remove('glitch-all');document.body.style.animation='';},ms);
+  }
+  btn.addEventListener('pointerdown',e=>{e.preventDefault();collect();});
+  btn.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();collect();}});
+})();
+
+/* 全屏故障动画 */
+const glitchStyle=document.createElement('style');
+glitchStyle.textContent=`@keyframes a6Glitch{0%{transform:translate(-4px,2px) skewX(3deg);filter:hue-rotate(40deg)}25%{transform:translate(3px,-2px) skewX(-3deg);filter:hue-rotate(-40deg)}50%{transform:translate(-2px,1px);filter:invert(0.2)}75%{transform:translate(4px,-1px);filter:hue-rotate(20deg)}100%{transform:none;filter:none}}`;
+document.head.appendChild(glitchStyle);
+
+/* 后续各幕 JS 由分幕脚本注入 */
+window.__initActs=()=>{};
+</script>
+</body>
+</html>
